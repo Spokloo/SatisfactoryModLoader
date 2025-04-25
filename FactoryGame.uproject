@@ -383,11 +383,5 @@
 		"Win64",
 		"Linux",
 		"Windows"
-	],
-	"PreBuildSteps":
-	{
-		"Win64": [
-			"powershell -Command \"Set-ExecutionPolicy Bypass -Scope Process -Force;Unblock-File '$(ProjectDir)\\Mods\\WwisePatches\\applyPatches.ps1';& '$(ProjectDir)\\Mods\\WwisePatches\\applyPatches.ps1' '$(ProjectDir)'\""
-		]
-	}
+	]
 }
