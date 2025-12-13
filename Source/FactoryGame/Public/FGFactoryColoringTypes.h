@@ -8,6 +8,8 @@
 #include "Engine/Texture2D.h"
 #include "FGFactoryColoringTypes.generated.h"
 
+class UFGRecipe;
+
 static const uint8 BUILDABLE_COLORS_MAX_SLOTS_LEGACY = 18;
 static const int32 BUILDABLE_CUSTOM_DATA_NUM = 20;
 static const uint8 INDEX_CUSTOM_COLOR_SLOT = 255; // The index used to specify a "slot" is a custom user color and thus not really a slot at all
