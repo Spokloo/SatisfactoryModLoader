@@ -456,6 +456,7 @@ public:
 	UFUNCTION() void OnRep_ConveyorChainSubsystem();
 	UFUNCTION() void OnRep_BlueprintSubsystem();
 	UFUNCTION() void OnRep_VehicleSubsystem();
+	UFUNCTION() void OnRep_SignSubsystem();
 	
 	FORCEINLINE FString GetPublicTodoList() const { return mPublicTodoList; }
 //<FL>[KonradA] edited to support last edited by
@@ -527,6 +528,8 @@ public:
 	/** Broadcast to let the clients now that build effect with the given ID has finished playing */
 	UFUNCTION( NetMulticast, Reliable )
 	void Multicast_ForceCleanupPendingBlueprintBuildEffect( int32 blueprintBuildEffectID );
+	
+	void StartGameplayTelemetry();
 private:
 
 	UFUNCTION()
@@ -561,8 +564,15 @@ private:
 		fgcheck( out_spawnedSubsystem );
 	}
 
-	void SubmitNumPlayersTelemetry() const;
-	void SubmitCheatTelemetry() const;
+	void AddGameplayTelemetryStates();
+	void RemoveGameplayTelemetryStates();
+	void SetCreativeModeTelemetry( bool enabled );
+	void SubmitSessionStartedTelemetry();
+	void SubmitSessionEndedTelemetry();
+	void StartPlayDurationTelemetry();
+	void StopPlayDurationTelemetry();
+	void UpdatePlayDurationTelemetry();
+	
 
 	void TryGiveStartingRecipes( class AFGCharacterPlayer* inPlayer );
 	
@@ -636,6 +646,8 @@ public:
 	FOnSingleSubsystemReplicatedDelegate mOnBlueprintSubsystemReplicated;
 	/** Called on the client when the vehicle subsystem is available */
 	FOnSingleSubsystemReplicatedDelegate mOnVehicleSubsystemReplicated;
+	/** Called on the client when the sign subsystem is available */
+	FOnSingleSubsystemReplicatedDelegate mOnSignSubsystemReplicated;
 
 private:
 	/** Spawned subsystems */
@@ -683,7 +695,7 @@ private:
 	TObjectPtr<class AFGDroneSubsystem> mDroneSubsystem;
 	UPROPERTY( SaveGame )
 	TObjectPtr<class AFGStatisticsSubsystem> mStatisticsSubsystem;
-	UPROPERTY( Replicated )
+	UPROPERTY( ReplicatedUsing = OnRep_SignSubsystem )
 	TObjectPtr<class AFGSignSubsystem> mSignSubsystem;
 	UPROPERTY( Replicated )
 	TObjectPtr<class AFGCreatureSubsystem> mCreatureSubsystem;
@@ -850,7 +862,13 @@ private:
 	bool mIsCreativeModeEnabled = false;
 
 	int32 mCurrentBlueprintBuildEffectID{0};
-
+	
+	UPROPERTY( Replicated )
+	FGuid mTelemetryHostId;
+	
+	float mTelemetryPlayStartTime{0.0f};
+	FTimerHandle mTelemetryPlayDurationTimerHandle;
+	
 public:
 	UFUNCTION()
 	void DebugPlayerInfoCache();

@@ -194,6 +194,7 @@ void AFGGameState::OnRep_ActorRepresentationManager(){  }
 void AFGGameState::OnRep_ConveyorChainSubsystem(){  }
 void AFGGameState::OnRep_BlueprintSubsystem(){  }
 void AFGGameState::OnRep_VehicleSubsystem(){ }
+void AFGGameState::OnRep_SignSubsystem(){ }
 void AFGGameState::Server_SetPublicTodoList(const FString& newTodoList, const FPlayerInfoHandle& lastEditedBy){ }
 void AFGGameState::SetCreativeModeEnabled(){ }
 void AFGGameState::BroadcastAutoSaveTimeNotification(float timeLeft) const{ }
@@ -210,11 +211,18 @@ TArray<FCachedPlayerInfo> AFGGameState::GetOfflineCachedPlayerInfosInSession() c
 int32 AFGGameState::Authority_AllocateNewBlueprintBuildEffectID(){ return int32(); }
 void AFGGameState::Multicast_AddPendingBlueprintBuildEffect_Implementation(int32 blueprintBuildEffectID, const FTransform& originTransform, int32 expectedBuildingsAndLightweightsCount, APawn* buildEffectInstigator){ }
 void AFGGameState::Multicast_ForceCleanupPendingBlueprintBuildEffect_Implementation(int32 blueprintBuildEffectID){ }
+void AFGGameState::StartGameplayTelemetry(){ }
 void AFGGameState::OnRep_CheatNoPower(){ }
 void AFGGameState::OnRep_CreativeModeEnabled(){ }
 void AFGGameState::UpdateServerRealTimeSeconds(){  }
-void AFGGameState::SubmitNumPlayersTelemetry() const{ }
-void AFGGameState::SubmitCheatTelemetry() const{ }
+void AFGGameState::AddGameplayTelemetryStates(){ }
+void AFGGameState::RemoveGameplayTelemetryStates(){ }
+void AFGGameState::SetCreativeModeTelemetry(bool enabled){ }
+void AFGGameState::SubmitSessionStartedTelemetry(){ }
+void AFGGameState::SubmitSessionEndedTelemetry(){ }
+void AFGGameState::StartPlayDurationTelemetry(){ }
+void AFGGameState::StopPlayDurationTelemetry(){ }
+void AFGGameState::UpdatePlayDurationTelemetry(){ }
 void AFGGameState::TryGiveStartingRecipes( AFGCharacterPlayer* inPlayer){ }
 void AFGGameState::OnRep_PlayerInfoCache(const TArray<FCachedPlayerInfo>& oldPlayerInfoCache){ }
 void AFGGameState::UpdatePlayerInfoCacheUserInfo(){ }
